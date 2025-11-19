@@ -1,6 +1,11 @@
 package server.watchlist.data;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -32,6 +37,7 @@ public class DataHandler {
 	
 	public static void startup() throws StreamReadException, DatabindException, IOException {
 		deserializeUsers();
+		deserializeDetails();
 		startApiThread();
 		for(User u : users) {
 			for(AnimeEntry ae : u.getList()) {
@@ -175,6 +181,12 @@ public class DataHandler {
 			if(r == null)
 				continue;
 			details.put(r.getId(), r);
+			try {
+				serializeDetails();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -193,6 +205,26 @@ public class DataHandler {
 	
 	public static void serializeUsers() throws JsonProcessingException, IOException {
 		Files.writeString(Paths.get("data.json"), new ObjectMapper().writeValueAsString(users), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+	}
+	
+	public static void serializeDetails() throws IOException {
+		FileOutputStream file = new FileOutputStream("cache.data");
+		ObjectOutputStream out = new ObjectOutputStream(file);
+		out.writeObject(details);
+		out.close();
+		file.close();
+	}
+	
+	public static void deserializeDetails() {
+		try {
+			FileInputStream file = new FileInputStream("cache.data");
+			ObjectInputStream in = new ObjectInputStream(file);
+			details = (HashMap<Integer, ResponseObject>) in.readObject();
+			in.close();
+			file.close();
+		} catch (IOException | ClassNotFoundException e) {
+			details = new HashMap<Integer, ResponseObject>();
+		}
 	}
 	
 	public static User[] getUsers() {
