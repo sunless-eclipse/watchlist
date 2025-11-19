@@ -41,7 +41,7 @@ public class DataHandler {
 		startApiThread();
 		for(User u : users) {
 			for(AnimeEntry ae : u.getList()) {
-				requestInfoById(ae.getId());
+				getDetails(ae.getId());
 			}
 		}
 	}
