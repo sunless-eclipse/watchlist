@@ -84,7 +84,12 @@ public class DataHandler {
 		while(qOut_manual.isEmpty() && (System.nanoTime() - start - T_TIMEOUT < 0));
 		String out = qOut_manual.poll();
 		
-		t_manual.stop();
+		try {
+			t_manual.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		apiT.unpause();
 		if(out == null)
 			return null;

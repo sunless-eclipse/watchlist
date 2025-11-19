@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
+import server.watchlist.Application;
+
 public class ApiThread implements Runnable {
 	private final long DELTA_T = 2_000L;
 
@@ -23,7 +25,7 @@ public class ApiThread implements Runnable {
 	public ApiThread(ConcurrentLinkedQueue<String> requestQ, ConcurrentLinkedQueue<String> responseQ) {
 		this.requestQ = requestQ;
 		this.responseQ = responseQ;
-		nextValidTime = System.nanoTime();
+		nextValidTime = System.currentTimeMillis();
 	}
 	
 	public synchronized void pause() {
@@ -74,6 +76,7 @@ public class ApiThread implements Runnable {
 				}
 				if(response.statusCode() == 200) {
 					responseString = response.body();
+					System.out.println(responseString);
 				} else {
 					responseString = null;
 				}
