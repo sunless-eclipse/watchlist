@@ -53,7 +53,15 @@ public class ApiThread implements Runnable {
 			while(paused);
 			String requestString = null;
 			while (requestString == null) {
-				requestString = requestQ.poll();
+				requestString = requestQ.peek();
+				if(requestString == null) {
+					try {
+						Thread.sleep(10_000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 			
 			nextValidTime = System.currentTimeMillis() + DELTA_T;
@@ -76,7 +84,6 @@ public class ApiThread implements Runnable {
 				}
 				if(response.statusCode() == 200) {
 					responseString = response.body();
-					System.out.println(responseString);
 				} else {
 					responseString = null;
 				}
@@ -85,6 +92,8 @@ public class ApiThread implements Runnable {
 			}
 			if(responseString == null)
 				continue;
+			
+			requestQ.poll();
 			//return responseString to other thread
 			responseQ.offer(responseString);
 		}
