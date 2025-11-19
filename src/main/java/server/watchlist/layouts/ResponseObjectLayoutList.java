@@ -161,4 +161,9 @@ public class ResponseObjectLayoutList extends ArrayList<ResponseObjectLayout> im
 		}
 		return 0;
 	}
+
+	@Override
+	public ResponseObjectLayoutList reversed() {
+		return (ResponseObjectLayoutList) Comparator.super.reversed();
+	}
 }
