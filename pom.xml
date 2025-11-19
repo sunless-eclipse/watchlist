@@ -65,6 +65,11 @@
                 <!-- Clean build and startup time for Vaadin apps sometimes may exceed
                      the default Spring Boot's 30sec timeout.  -->
                 <configuration>
+                	<image>
+                		<env>
+                			<BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
+                		</env>
+                	</image>
                     <wait>500</wait>
                     <maxAttempts>240</maxAttempts>
                 </configuration>

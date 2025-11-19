@@ -1,3 +1,5 @@
 /target/*
 !/target/watchlist.jar
 /target/
+/node_modules/*
+/frontend/*
