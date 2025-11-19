@@ -1,9 +1,15 @@
 package server.watchlist.data;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseObject {
+public class ResponseObject implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3539963177093394568L;
 	private Data data = new Data(new Data.Media(0, 0, new String[] {}, new Data.Media.Title("", ""), new Data.Media.CoverImage(""), ""));
 	private boolean invalid = false;
 	
@@ -63,7 +69,11 @@ public class ResponseObject {
 		return !invalid;
 	}
 	
-	public static class Data {
+	public static class Data implements Serializable {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6262576760479596697L;
 		private Media media;
 		
 		@JsonCreator
@@ -71,7 +81,11 @@ public class ResponseObject {
 			this.media = media;
 		}
 		
-		public static class Media {
+		public static class Media implements Serializable {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5495533927659279315L;
 			private int id;
 			private int episodes;
 			private String[] genres;
@@ -89,7 +103,11 @@ public class ResponseObject {
 				this.siteUrl = siteUrl;
 			}
 			
-			public static class Title {
+			public static class Title implements Serializable {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1219022509459933175L;
 				private String romaji;
 				private String english;
 				
@@ -100,7 +118,11 @@ public class ResponseObject {
 				}
 			}
 			
-			public static class CoverImage {
+			public static class CoverImage implements Serializable {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1455375996747130162L;
 				private String medium;
 				
 				@JsonCreator
